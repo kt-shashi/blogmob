@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.shashi.blogmob.daos.UserDao
+import com.shashi.blogmob.models.User
 
 class LoginActivity : AppCompatActivity() {
 
@@ -76,7 +78,17 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    val user = auth.currentUser
+                    val currentUser = auth.currentUser
+
+                    val user = User(
+                        currentUser?.uid ?: "",
+                        email,
+                        "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Begrippenlijst.svg"
+                    )
+
+                    val userDao = UserDao()
+                    userDao.addUser(user)
+
                     showToast("Sign up successful, you can now sign in ino your account")
 
                 } else {
