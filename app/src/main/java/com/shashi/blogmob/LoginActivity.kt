@@ -1,5 +1,6 @@
 package com.shashi.blogmob
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -10,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-class SigninActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
@@ -23,7 +24,7 @@ class SigninActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_signin)
+        setContentView(R.layout.activity_login)
 
         // Initialize Firebase Auth
         auth = Firebase.auth
@@ -39,33 +40,34 @@ class SigninActivity : AppCompatActivity() {
 
         signinBtn.setOnClickListener {
 
-            var email = emailET.text.toString()
-            var password = passwordET.text.toString()
+            var email = emailET.text.toString().trim()
+            var password = passwordET.text.toString().trim()
 
-            if (email == "")
-                emailET.setError("Cannot be empty")
-            else if (password == "")
-                passwordET.setError("Cannot be empty")
-            else if (password.length < 8)
-                passwordET.setError("Choose a password with 8 characters minimum")
-            else
+            if (verifyEmailPassword(email, password))
                 signin(email, password)
         }
 
         signupBtn.setOnClickListener {
+            var email = emailET.text.toString().trim()
+            var password = passwordET.text.toString().trim()
 
-            var email = emailET.text.toString()
-            var password = passwordET.text.toString()
-
-            if (email == "")
-                emailET.setError("Cannot be empty")
-            else if (password == "")
-                passwordET.setError("Cannot be empty")
-            else if (password.length < 8)
-                passwordET.setError("Choose a password with 8 characters minimum")
-            else
+            if (verifyEmailPassword(email, password))
                 signup(email, password)
         }
+
+    }
+
+    private fun verifyEmailPassword(email: String, password: String): Boolean {
+
+        if (email == "")
+            emailET.setError("Cannot be empty")
+        else if (password == "")
+            passwordET.setError("Cannot be empty")
+        else if (password.length < 8)
+            passwordET.setError("Choose a password with 8 characters minimum")
+        else
+            return true
+        return false
 
     }
 
@@ -74,18 +76,12 @@ class SigninActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "createUserWithEmail:success")
                     val user = auth.currentUser
-//                    updateUI(user)
+                    showToast("Sign up successful, you can now sign in ino your account")
+
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(
-                        baseContext,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-//                    updateUI(null)
+                    showToast("Sign up failed, make sure email is not already in use")
                 }
             }
     }
@@ -97,16 +93,13 @@ class SigninActivity : AppCompatActivity() {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "signInWithEmail:success")
                     val user = auth.currentUser
-//                    updateUI(user)
+                    showToast("Sign in successful")
+                    startActivity(Intent(this, HomeActivity::class.java))
+                    finish()
+
                 } else {
                     // If sign in fails, display a message to the user.
-                    Log.w(TAG, "signInWithEmail:failure", task.exception)
-                    Toast.makeText(
-                        baseContext,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-//                    updateUI(null)
+                    showToast("Sign in unsuccessful, make sure credentials are valid")
                 }
             }
     }
@@ -115,12 +108,4 @@ class SigninActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    public override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            showToast("signed in already")
-        }
-    }
 }
