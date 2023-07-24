@@ -54,12 +54,31 @@ class LoginActivity : AppCompatActivity() {
         signupBtn.setOnClickListener {
             var email = emailET.text.toString().trim()
             var password = passwordET.text.toString().trim()
-            var name = nameET.text.toString().trim()
+
+            var userName = getUserName(email)
 
             if (verifyEmailPassword(email, password))
-                signup(name, email, password)
+                signup(userName, email, password)
         }
 
+    }
+
+    private fun getUserName(email: String): String {
+        var name = nameET.text.toString().trim()
+
+        if (name.isNotEmpty())
+            return name
+
+        var newUserName = ""
+        for (i in 0 until email.length) {
+            if (email[i] == '@') {
+                break
+            } else {
+                newUserName += email[i]
+            }
+        }
+
+        return newUserName
     }
 
     private fun verifyEmailPassword(email: String, password: String): Boolean {
@@ -76,7 +95,8 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun signup(name: String, email: String, password: String) {
+    private fun signup(userName: String, email: String, password: String) {
+
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -85,8 +105,8 @@ class LoginActivity : AppCompatActivity() {
 
                     val user = User(
                         currentUser?.uid ?: "",
-                        name,
-                        "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Begrippenlijst.svg"
+                        userName,
+                        "https://firebasestorage.googleapis.com/v0/b/blogmob-840f4.appspot.com/o/placeholder.png?alt=media&token=fc0a61fc-fdb6-4b58-8522-aaa2f186ff34"
                     )
 
                     val userDao = UserDao()
