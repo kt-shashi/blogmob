@@ -1,6 +1,5 @@
 package com.shashi.blogmob.daos
 
-import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
@@ -17,7 +16,7 @@ class PostDao() {
     val postCollection = db.collection(Constants.DB_POST)
     val auth = Firebase.auth
 
-    fun addPost(title: String, desc:String) {
+    fun addPost(title: String, desc: String) {
 
         val currentUserId = auth.currentUser!!.uid
 
@@ -25,7 +24,7 @@ class PostDao() {
             val userDao = UserDao()
             val user = userDao.getUserById(currentUserId).await().toObject(User::class.java)!!
 
-            val currentTime = Timestamp.now()
+            val currentTime = System.currentTimeMillis()
             val post = Post(title, desc, user, currentTime)
 
             postCollection.document().set(post)

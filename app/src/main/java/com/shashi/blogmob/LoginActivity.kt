@@ -19,6 +19,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var signinBtn: Button
     private lateinit var signupBtn: Button
+    private lateinit var nameET: EditText
     private lateinit var emailET: EditText
     private lateinit var passwordET: EditText
 
@@ -37,6 +38,7 @@ class LoginActivity : AppCompatActivity() {
     private fun initalizeUI() {
         signinBtn = findViewById(R.id.btn_signin)
         signupBtn = findViewById(R.id.btn_signup)
+        nameET = findViewById(R.id.et_name)
         emailET = findViewById(R.id.et_email)
         passwordET = findViewById(R.id.et_password)
 
@@ -52,9 +54,10 @@ class LoginActivity : AppCompatActivity() {
         signupBtn.setOnClickListener {
             var email = emailET.text.toString().trim()
             var password = passwordET.text.toString().trim()
+            var name = nameET.text.toString().trim()
 
             if (verifyEmailPassword(email, password))
-                signup(email, password)
+                signup(name, email, password)
         }
 
     }
@@ -73,7 +76,7 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun signup(email: String, password: String) {
+    private fun signup(name: String, email: String, password: String) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
@@ -82,14 +85,14 @@ class LoginActivity : AppCompatActivity() {
 
                     val user = User(
                         currentUser?.uid ?: "",
-                        email,
+                        name,
                         "https://ralfvanveen.com/wp-content/uploads/2021/06/Placeholder-_-Begrippenlijst.svg"
                     )
 
                     val userDao = UserDao()
                     userDao.addUser(user)
 
-                    showToast("Sign up successful, you can now sign in ino your account")
+                    showToast("Sign up successful, you can now sign in into your account")
 
                 } else {
                     // If sign in fails, display a message to the user.
