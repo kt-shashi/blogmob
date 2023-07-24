@@ -1,33 +1,33 @@
-package com.shashi.blogmob
+package com.shashi.blogmob.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.shashi.blogmob.HomeActivity
+import com.shashi.blogmob.R
 import com.shashi.blogmob.daos.UserDao
 import com.shashi.blogmob.models.User
 
-class LoginActivity : AppCompatActivity() {
+class SignUpActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
-    private lateinit var signinBtn: Button
+    private lateinit var signinTV: TextView
     private lateinit var signupBtn: Button
     private lateinit var nameET: EditText
     private lateinit var emailET: EditText
     private lateinit var passwordET: EditText
 
-    private var TAG = "blogmob"
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        setContentView(R.layout.activity_sign_up)
 
         // Initialize Firebase Auth
         auth = Firebase.auth
@@ -36,26 +36,21 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initalizeUI() {
-        signinBtn = findViewById(R.id.btn_signin)
-        signupBtn = findViewById(R.id.btn_signup)
-        nameET = findViewById(R.id.et_name)
-        emailET = findViewById(R.id.et_email)
-        passwordET = findViewById(R.id.et_password)
+        signinTV = findViewById(R.id.tv_signin_signuplayout)
+        signupBtn = findViewById(R.id.btn_signup_signuplayout)
+        nameET = findViewById(R.id.et_name_signup)
+        emailET = findViewById(R.id.et_email_signup)
+        passwordET = findViewById(R.id.et_password_signup)
 
-        signinBtn.setOnClickListener {
-
-            var email = emailET.text.toString().trim()
-            var password = passwordET.text.toString().trim()
-
-            if (verifyEmailPassword(email, password))
-                signin(email, password)
+        signinTV.setOnClickListener {
+            openSigninActivity()
         }
 
         signupBtn.setOnClickListener {
-            var email = emailET.text.toString().trim()
-            var password = passwordET.text.toString().trim()
+            val email = emailET.text.toString().trim()
+            val password = passwordET.text.toString().trim()
 
-            var userName = getUserName(email)
+            val userName = getUserName(email)
 
             if (verifyEmailPassword(email, password))
                 signup(userName, email, password)
@@ -64,13 +59,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun getUserName(email: String): String {
-        var name = nameET.text.toString().trim()
+        val name = nameET.text.toString().trim()
 
         if (name.isNotEmpty())
             return name
 
         var newUserName = ""
-        for (i in 0 until email.length) {
+        for (i in email.indices) {
             if (email[i] == '@') {
                 break
             } else {
@@ -84,11 +79,11 @@ class LoginActivity : AppCompatActivity() {
     private fun verifyEmailPassword(email: String, password: String): Boolean {
 
         if (email == "")
-            emailET.setError("Cannot be empty")
+            emailET.error = "Cannot be empty"
         else if (password == "")
-            passwordET.setError("Cannot be empty")
+            passwordET.error = "Cannot be empty"
         else if (password.length < 8)
-            passwordET.setError("Choose a password with 8 characters minimum")
+            passwordET.error = "Choose a password with 8 characters minimum"
         else
             return true
         return false
@@ -112,7 +107,8 @@ class LoginActivity : AppCompatActivity() {
                     val userDao = UserDao()
                     userDao.addUser(user)
 
-                    showToast("Sign up successful, you can now sign in into your account")
+                    startActivity(Intent(this, HomeActivity::class.java))
+                    finish()
 
                 } else {
                     // If sign in fails, display a message to the user.
@@ -121,26 +117,13 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    private fun signin(email: String, password: String) {
-        auth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "signInWithEmail:success")
-                    val user = auth.currentUser
-                    showToast("Sign in successful")
-                    startActivity(Intent(this, HomeActivity::class.java))
-                    finish()
-
-                } else {
-                    // If sign in fails, display a message to the user.
-                    showToast("Sign in unsuccessful, make sure credentials are valid")
-                }
-            }
-    }
-
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun openSigninActivity() {
+        startActivity(Intent(this, SignInActivity::class.java))
+        finish()
     }
 
 }

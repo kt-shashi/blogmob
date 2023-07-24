@@ -1,4 +1,4 @@
-package com.shashi.blogmob
+package com.shashi.blogmob.login
 
 import android.content.Intent
 import android.os.Build
@@ -11,6 +11,8 @@ import android.view.WindowInsetsController
 import android.view.WindowManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.shashi.blogmob.HomeActivity
+import com.shashi.blogmob.R
 
 class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +53,7 @@ class SplashScreen : AppCompatActivity() {
             if (currentUser != null) {
                 startActivity(Intent(this, HomeActivity::class.java))
             } else
-                startActivity(Intent(this, LoginActivity::class.java))
+                startActivity(Intent(this, SignInActivity::class.java))
 
             finish()
         }, 1000)

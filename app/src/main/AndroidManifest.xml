@@ -15,6 +15,13 @@
         android:theme="@style/Theme.Blogmob"
         tools:targetApi="31">
         <activity
+            android:name=".login.SignUpActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".PostActivity"
             android:exported="false">
             <meta-data
@@ -22,7 +29,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".SplashScreen"
+            android:name=".login.SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,7 +42,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".login.SignInActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

@@ -13,6 +13,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import com.shashi.blogmob.daos.PostDao
+import com.shashi.blogmob.login.SignInActivity
 import com.shashi.blogmob.models.Post
 
 class HomeActivity : AppCompatActivity(), IPostAdapter {
@@ -58,7 +59,7 @@ class HomeActivity : AppCompatActivity(), IPostAdapter {
 
     private fun logout() {
         FirebaseAuth.getInstance().signOut();
-        startActivity(Intent(this, LoginActivity::class.java))
+        startActivity(Intent(this, SignInActivity::class.java))
         finish()
     }
 
@@ -68,7 +69,7 @@ class HomeActivity : AppCompatActivity(), IPostAdapter {
         var auth = Firebase.auth
         val currentUser = auth.currentUser
         if (currentUser == null) {
-            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(Intent(this, SignInActivity::class.java))
         }
 
         adapter.startListening()
