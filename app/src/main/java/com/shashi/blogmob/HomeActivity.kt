@@ -15,7 +15,7 @@ import com.google.firebase.ktx.Firebase
 import com.shashi.blogmob.daos.PostDao
 import com.shashi.blogmob.models.Post
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), IPostAdapter {
 
     private lateinit var postDao: PostDao
     private lateinit var adapter: PostAdapter
@@ -48,7 +48,7 @@ class HomeActivity : AppCompatActivity() {
         val recyclerViewOptions =
             FirestoreRecyclerOptions.Builder<Post>().setQuery(query, Post::class.java).build()
 
-        adapter = PostAdapter(recyclerViewOptions)
+        adapter = PostAdapter(recyclerViewOptions, this)
 
         recyclerView = findViewById(R.id.rv_post)
         recyclerView.adapter = adapter
@@ -78,6 +78,12 @@ class HomeActivity : AppCompatActivity() {
         super.onStop()
 
         adapter.stopListening()
+    }
+
+    override fun onLikeClicked(postId: String) {
+
+        postDao.updateLikes(postId)
+
     }
 
 }
