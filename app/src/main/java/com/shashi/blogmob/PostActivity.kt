@@ -27,8 +27,9 @@ class PostActivity : AppCompatActivity() {
         descET = findViewById(R.id.et_desc)
 
         postBtn.setOnClickListener {
+            postBtn.isEnabled = false
             createPost()
-            finish()
+            postBtn.isEnabled = true
         }
 
     }
@@ -47,6 +48,8 @@ class PostActivity : AppCompatActivity() {
 
         var postDao = PostDao()
         postDao.addPost(title, desc)
+
+        finish()
 
     }
 
