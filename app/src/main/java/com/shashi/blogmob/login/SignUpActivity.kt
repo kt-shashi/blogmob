@@ -27,13 +27,19 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var passwordET: EditText
 
     private lateinit var imageIV: ImageView
-    private lateinit var imageURI: Uri
+    private var imageURI: Uri = Uri.EMPTY
     private val IMG_REQUEDT_ID = 1
     private var imageURL = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Hide title bar
+        try {
+            this.supportActionBar!!.hide()
+        } catch (e: NullPointerException) {
+
+        }
         setContentView(R.layout.activity_sign_up)
 
         // Initialize Firebase Auth
@@ -143,26 +149,43 @@ class SignUpActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
 
-                    // Sign in success, update UI with the signed-in user's information
-                    uploadImage(object : ImageUploadCallback {
-                        override fun onImageUploadSuccess(imageURL: String) {
-                            val currentUser = auth.currentUser
-                            val user = User(
-                                currentUser?.uid ?: "",
-                                userName,
-                                imageURL
-                            )
+                    val currentUser = auth.currentUser
 
-                            val userDao = UserDao()
-                            userDao.addUser(user)
-                            startActivity(Intent(this@SignUpActivity, HomeActivity::class.java))
-                            finish()
-                        }
+                    if (imageURI != Uri.EMPTY) {
+                        // If imageURI is initialized, perform image upload
+                        uploadImage(object : ImageUploadCallback {
+                            override fun onImageUploadSuccess(imageURL: String) {
+                                // Create a user with imageURL
+                                val user = User(
+                                    currentUser?.uid ?: "",
+                                    userName,
+                                    imageURL
+                                )
 
-                        override fun onImageUploadFailure() {
-                            showToast("Failed to upload image.")
-                        }
-                    })
+                                val userDao = UserDao()
+                                userDao.addUser(user)
+                                startActivity(Intent(this@SignUpActivity, HomeActivity::class.java))
+                                finish()
+                            }
+
+                            override fun onImageUploadFailure() {
+                                showToast("Failed to upload image.")
+                            }
+                        })
+                    } else {
+                        // If imageURI is not initialized, create a user without imageURL
+                        val user = User(
+                            currentUser?.uid ?: "",
+                            userName,
+                            ""
+                        )
+
+                        val userDao = UserDao()
+                        userDao.addUser(user)
+                        startActivity(Intent(this@SignUpActivity, HomeActivity::class.java))
+                        finish()
+                    }
+
                 } else {
                     showToast("Sign up failed, make sure email is not already in use")
                 }

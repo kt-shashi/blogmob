@@ -6,18 +6,33 @@
     android:layout_height="match_parent"
     android:background="#f0f0f0"
     android:padding="10dp"
+    android:paddingBottom="10dp"
     tools:context=".PostActivity">
+
+    <TextView
+        android:id="@+id/tv_heading_createpost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create a blog!"
+        android:textColor="@color/mblue"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/et_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:background="@drawable/et_background"
         android:hint="Enter title here"
         android:padding="16dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/mblue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/tv_heading_createpost" />
 
     <EditText
         android:id="@+id/et_desc"
@@ -31,6 +46,8 @@
         android:maxLines="3"
         android:minLines="1"
         android:padding="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/mblue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/et_title" />

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:padding="20dp"
     tools:context=".login.SignInActivity">
 
@@ -33,7 +34,9 @@
             android:background="@drawable/et_background"
             android:hint="Enter email here"
             android:inputType="textEmailAddress"
-            android:padding="20dp" />
+            android:padding="20dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/mblue" />
 
         <EditText
             android:id="@+id/et_password_signin"
@@ -43,7 +46,9 @@
             android:background="@drawable/et_background"
             android:hint="Enter password here"
             android:inputType="textPassword"
-            android:padding="20dp" />
+            android:padding="20dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/mblue" />
 
         <Button
             android:id="@+id/btn_signin_signinlayout"
@@ -51,7 +56,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:text="SIGNIN" />
+            android:text="SIGNIN"
+            android:textColor="@color/white" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,7 +71,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Don't have an account? " />
+                android:text="Don't have an account? "
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tv_signup_signinlayout"
@@ -73,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:text="Signup"
                 android:textAllCaps="true"
-                android:textColor="#30577A"
+                android:textColor="@color/mblue"
                 android:textStyle="bold" />
 
         </LinearLayout>
