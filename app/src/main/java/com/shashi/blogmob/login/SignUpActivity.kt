@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -25,12 +26,12 @@ class SignUpActivity : AppCompatActivity() {
     private lateinit var nameET: EditText
     private lateinit var emailET: EditText
     private lateinit var passwordET: EditText
+    private lateinit var progressBar: ProgressBar
 
     private lateinit var imageIV: ImageView
     private var imageURI: Uri = Uri.EMPTY
     private val IMG_REQUEDT_ID = 1
     private var imageURL = ""
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +56,8 @@ class SignUpActivity : AppCompatActivity() {
         emailET = findViewById(R.id.et_email_signup)
         passwordET = findViewById(R.id.et_password_signup)
         imageIV = findViewById(R.id.iv_photo_signup)
+        progressBar = findViewById(R.id.progress_signup)
+        progressBar.visibility = View.INVISIBLE
 
         signinTV.setOnClickListener {
             openSigninActivity()
@@ -64,6 +67,7 @@ class SignUpActivity : AppCompatActivity() {
 
             signupBtn.isEnabled = false
             signinTV.isEnabled = false
+            progressBar.visibility = View.VISIBLE
 
             val email = emailET.text.toString().trim()
             val password = passwordET.text.toString().trim()
@@ -75,6 +79,7 @@ class SignUpActivity : AppCompatActivity() {
 
             signupBtn.isEnabled = true
             signinTV.isEnabled = true
+            progressBar.visibility = View.INVISIBLE
 
         }
 

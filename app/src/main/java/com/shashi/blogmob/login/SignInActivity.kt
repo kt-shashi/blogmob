@@ -2,10 +2,8 @@ package com.shashi.blogmob.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -21,6 +19,7 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var signupTV: TextView
     private lateinit var emailET: EditText
     private lateinit var passwordET: EditText
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,14 +42,23 @@ class SignInActivity : AppCompatActivity() {
         signupTV = findViewById(R.id.tv_signup_signinlayout)
         emailET = findViewById(R.id.et_email_signin)
         passwordET = findViewById(R.id.et_password_signin)
+        progressBar = findViewById(R.id.progress_signin)
+        progressBar.visibility = View.INVISIBLE
 
         signinBtn.setOnClickListener {
+
+            signinBtn.isEnabled = false
+            progressBar.visibility = View.VISIBLE
 
             val email = emailET.text.toString().trim()
             val password = passwordET.text.toString().trim()
 
             if (verifyEmailPassword(email, password))
                 signin(email, password)
+
+            signinBtn.isEnabled = true
+            progressBar.visibility = View.INVISIBLE
+
         }
 
         signupTV.setOnClickListener {
