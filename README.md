@@ -10,8 +10,6 @@
 BlogMob is a blogging app where users can post blogs and like the blogs they love. <br>
 
 <br>
-<hr>
-<br>
 
 ## Features⚡️
 
@@ -20,8 +18,6 @@ BlogMob is a blogging app where users can post blogs and like the blogs they lov
 - Write blogs
 - Like blogs you love
 
-<br>
-<hr>
 <br>
 
 </div>
@@ -33,8 +29,6 @@ BlogMob is a blogging app where users can post blogs and like the blogs they lov
 
 [**Click here**](https://github.com/kt-shashi/blogmob/blob/main/apk/Blogmob.apk)
 
-<br>
-<hr>
 <br>
 
 </div>
@@ -57,8 +51,6 @@ BlogMob is a blogging app where users can post blogs and like the blogs they lov
     </tr>
 </table>
 
-<br>
-<hr>
 <br>
 
 ## Libraries used and their documentation
