@@ -27,11 +27,11 @@ BlogMob is a blogging app where users can post blogs and like the blogs they lov
 </div>
 <div align="center">
 
-## Download apk
+## Download apk 🔽
 
 <br>
 
-[Click here](https://github.com/kt-shashi/blog-mob/raw/master/apk/Blogmob.apk)
+[**Click here**](https://github.com/kt-shashi/blogmob/blob/main/apk/Blogmob.apk)
 
 <br>
 <hr>
