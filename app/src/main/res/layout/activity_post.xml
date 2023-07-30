@@ -43,8 +43,6 @@
         android:gravity="top"
         android:hint="Enter desc here"
         android:inputType="textMultiLine"
-        android:maxLines="3"
-        android:minLines="1"
         android:padding="10dp"
         android:textColor="@color/black"
         android:textColorHint="@color/mblue"

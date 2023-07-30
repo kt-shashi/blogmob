@@ -1,7 +1,5 @@
 package com.shashi.blogmob.models
 
-import com.google.firebase.Timestamp
-
 data class Post(
     val title: String = "",
     val desc: String = "",
